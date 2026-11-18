@@ -1,0 +1,11 @@
+{
+  "cf": 0.5,
+  "agent": 0.5,
+  "temperature": 3.0,
+  "global": "lj_v2",
+  "k": 3,
+  "aggregation": "point",
+  "quantile": 0.8,
+  "local_temperature": 3.0,
+  "local_weight": 2.0
+}
