@@ -1,5 +1,6 @@
 {
-  "status": "local_preparation_not_published",
+  "status": "private_repository_preparation",
+  "repository_url": "https://github.com/Persiapinkman/selectverify",
   "paper": {
     "title": "Select, Then Verify: Budgeted Failure Attribution for Tool-Using Agents",
     "pdf_sha256": "ff07d3bc30519ff0ab3940106b9287daa423d907df0688f82e2b863b4f5fb1c6"
@@ -64,8 +65,7 @@
     "Choose and approve an open-source license and copyright holders.",
     "Confirm exact checkpoint origin and weight revision; the historical directory name disagrees with Qwen3 architecture metadata.",
     "Pin and review benchmark and baseline source revisions and redistribution terms.",
-    "Package remaining archived-only baselines or explicitly document their reproduction boundary.",
-    "Complete user-facing installation and reproduction documentation before publication.",
+    "Package remaining archived-only baselines; their current reproduction boundary is documented in README.md.",
     "Select an anonymous submission repository if required; do not expose identifying history.",
     "Run a fresh full GPU replication and compare against archived metrics before claiming full reproduction."
   ],
