@@ -191,4 +191,4 @@ Before public release, confirm checkpoint provenance, pin upstream revisions, re
 
 No project-wide open-source license has been selected yet; this README does not grant one. Third-party code, models, and datasets remain subject to their respective licenses.
 
-This artifact accompanies **Select, Then Verify: Budgeted Failure Attribution for Tool-Using Agents**. Final author information and a publication identifier have not been added. Benchmark resources: [Who&When Pro evaluator](https://github.com/whowhenpro/whowhen_pro) and [dataset](https://huggingface.co/datasets/Leoxx/whowhen_pro).
+This artifact accompanies **Select, Then Verify: Budgeted Failure Attribution for Tool-Using Agents**. Benchmark resources: [Who&When Pro evaluator](https://github.com/whowhenpro/whowhen_pro) and [dataset](https://huggingface.co/datasets/Leoxx/whowhen_pro).
