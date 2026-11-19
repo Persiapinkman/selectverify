@@ -200,7 +200,7 @@ Completed during packaging:
 
 A fresh full GPU replication of this package has **not** been completed. Raw benchmark data, model weights, private deployment data, and experiment caches are not included. MASPrism and the full-signal predecessor still need standalone reproduction assets; CHIEF-no-G is outside this artifact's target paper version.
 
-Before public release, confirm checkpoint provenance, pin upstream revisions, review third-party terms, complete GPU validation, and choose an appropriate license. This personal-account repository is not an anonymous submission link.
+Before public release, confirm checkpoint provenance, pin upstream revisions, review third-party terms, complete GPU validation, and choose an appropriate license. 
 
 ## License and references
 
