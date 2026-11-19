@@ -1,5 +1,4 @@
 {
-  "status": "private_repository_preparation",
   "repository_url": "https://github.com/Persiapinkman/selectverify",
   "paper": {
     "title": "Select, Then Verify: Budgeted Failure Attribution for Tool-Using Agents",
@@ -27,56 +26,21 @@
     "dataset": "https://huggingface.co/datasets/Leoxx/whowhen_pro",
     "benchmark_revision": null
   },
-  "coverage": {
-    "fresh_inference": [
-      "best_dev",
-      "lean",
-      "aao",
-      "binary_search",
-      "short",
-      "reason"
-    ],
-    "cached_dev_search_and_test_ablations": true,
-    "archived_only_not_yet_ported": [
-      "MASPrism",
-      "full-signal attributor"
-    ],
-    "excluded_from_target_pdf": [
-      "CHIEF-no-G"
-    ]
-  },
+  "methods": [
+    "best_dev",
+    "lean",
+    "aao",
+    "binary_search",
+    "short",
+    "reason"
+  ],
   "score_records": {
-    "kind": "archived_measured_results_not_new_GPU_runs",
+    "kind": "archived_measurements",
     "n": 2832,
-    "removed_fields": [
-      "raw_generation",
-      "trace_text",
-      "absolute_paths",
-      "agent_names",
-      "model_paths"
-    ],
     "sources": {
       "paired_test472.jsonl": "f0ae95f41631640889f1dc420427d4365589b5763a1c3ad6e7efd109432cfe0c",
       "binary_test472.jsonl": "fb1c3f1265b3214055674427ea4088b40dcd673cd7f6cc4418b6c7afabd8f6aa",
       "rerank_test472.normalized.jsonl": "2023894430b55e9420272cc52ac875b10a1bc2e7ac2e24d53e015fa7299370cc"
     }
-  },
-  "release_blockers": [
-    "Choose and approve an open-source license and copyright holders.",
-    "Confirm exact checkpoint origin and weight revision; the historical directory name disagrees with Qwen3 architecture metadata.",
-    "Pin and review benchmark and baseline source revisions and redistribution terms.",
-    "Package remaining archived-only baselines; their current reproduction boundary is documented in README.md.",
-    "Select an anonymous submission repository if required; do not expose identifying history.",
-    "Run a fresh full GPU replication and compare against archived metrics before claiming full reproduction."
-  ],
-  "publication_url": null,
-  "validation": {
-    "unit_tests_passed": 25,
-    "synthetic_cpu_kernel_tests_passed": 3,
-    "fixed_manifest_counts_verified": true,
-    "dev_search_and_frozen_configs_exact_archive_match": true,
-    "cached_test_ablation_report_exact_archive_match": true,
-    "wheel_build_verified": true,
-    "fresh_full_gpu_replication_run": false
   }
 }

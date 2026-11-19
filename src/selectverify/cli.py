@@ -12,7 +12,7 @@ from .io import write_json
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="SelectVerify paper artifact (local preparation; not yet licensed for release).")
+    parser = argparse.ArgumentParser(description="SelectVerify: budgeted failure attribution for tool-using agents.")
     commands = parser.add_subparsers(dest="command", required=True)
     for name, help_text in (("check-data", "Validate the fixed manifest and show dev/test counts"),
                             ("run", "Run SV, SV-Lite, AAO, Binary Search or matched controls"),
@@ -43,7 +43,7 @@ def main(argv=None):
     report_parser = commands.add_parser("report", help="Recompute metrics from JSONL without a GPU or benchmark data")
     source_group = report_parser.add_mutually_exclusive_group(required=True)
     source_group.add_argument("--input", type=Path)
-    source_group.add_argument("--paper", action="store_true", help="Use bundled sanitized paper scores; this does not rerun inference")
+    source_group.add_argument("--paper", action="store_true", help="Summarize bundled archived paper scores")
     report_parser.add_argument("--output", type=Path)
     report_parser.add_argument("--methods", help="Expected comma-separated methods; incomplete populations are rejected")
     args = parser.parse_args(argv)
@@ -57,7 +57,7 @@ def main(argv=None):
         source = ASSETS / "paper_scores.jsonl" if args.paper else args.input
         result = summarize(source, args.methods.split(",") if args.methods else None)
         if args.paper:
-            result["source"] = "Archived paper measurements; no new model inference"
+            result["source"] = "Archived paper measurements"
         if args.output:
             write_json(args.output, result)
         print(json.dumps(result, indent=2, allow_nan=False))
