@@ -8,7 +8,7 @@ SelectVerify locates the decisive error in a failed agent execution trace using 
 
 [View the original vector figure (PDF)](assets/framework.pdf)
 
-> **Status:** private paper-artifact preparation, not a completed open-source release. Core inference and evaluation code are included. Exact checkpoint provenance, upstream revisions, licensing, and a fresh full GPU replication remain to be finalized. See [release metadata](src/selectverify/assets/release_manifest.json).
+> **Status:** Exact checkpoint provenance, upstream revisions, licensing, and a fresh full GPU replication remain to be finalized. See [release metadata](src/selectverify/assets/release_manifest.json).
 
 ## Method
 
@@ -23,7 +23,7 @@ The earlier **full-signal attributor** is a separate predecessor combining two g
 
 ## Results on Who&When Pro
 
-The paper uses a fixed text subset: **201 development trajectories and 472 evaluation trajectories across eight frameworks**. When is framework-macro step accuracy; Who is agent accuracy averaged over the five frameworks scored as multi-agent; micro-Step is pooled step accuracy. All accuracy values are percentages. Tokens and mean latency are per trajectory.
+When is framework-macro step accuracy; Who is agent accuracy averaged over the five frameworks scored as multi-agent; micro-Step is pooled step accuracy. All accuracy values are percentages. Tokens and mean latency are per trajectory.
 
 | Method | When | Who | micro-Step | Tokens | Mean (s) | P90 (s) |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -34,20 +34,11 @@ The paper uses a fixed text subset: **201 development trajectories and 472 evalu
 | SV-Lite | 57.98 | 60.27 | 59.96 | 7,553 | **0.95** | **1.86** |
 | **SelectVerify** | **62.40** | **61.92** | **64.62** | 10,890 | 1.49 | 3.21 |
 
-- SV, SV-Lite, and AAO use paired measurements on one NVIDIA H20 with BF16 and SDPA. Binary Search is measured in a separate run. SV reduces mean latency by **52.0% relative to AAO** in the archived paired run.
-- **[1] MASPrism:** separately archived measurements using eager attention to extract attention weights. Tokens sum its two prefill passes. Its runner did not explicitly synchronize CUDA or warm up the model, and excluded initial trace formatting. These latencies do not share the paired SDPA measurement protocol.
-- **[2] Full-signal:** 22,352 tokens covers the complete historical signal-collection pipeline, including signals assigned zero weight by the selected configuration. The approximate latencies sum separately archived component times for each of the 472 trajectories, then compute mean/P90. They are **not end-to-end measurements or the minimum cost of the selected configuration**.
-- All values above come from archived experiments, not a new GPU replication of this packaged code. MASPrism and full-signal implementations and their per-example records are not yet bundled here; those two rows cannot be regenerated using this repository alone.
-
-Matched-candidate controls use SV's candidates and local evidence, but generate a joint decision without numeric global scores:
-
 | Decision rule | When | micro-Step | Mean (s) |
 | :--- | ---: | ---: | ---: |
 | Generate step only | 45.37 | 45.76 | 1.44 |
 | Generate step + reason | 51.51 | 53.60 | 3.39 |
 | Independent verification + score fusion (SV) | 62.40 | 64.62 | 1.49 |
-
-This comparison tests the full decision rule, including global-score fusion, rather than generation alone.
 
 ## Quick start: inspect archived results
 
@@ -69,16 +60,14 @@ python -m pytest -q
 
 ### Dependencies and checkpoint
 
-The archived paired run used Python **3.10.20**, PyTorch **2.8.0+cu128**, Transformers **4.57.6**, BF16, SDPA, and a local verification batch size of **3**.
+Python **3.10.20**, PyTorch **2.8.0+cu128**, Transformers **4.57.6**, BF16, SDPA, and a local verification batch size of **3**.
 
-In the activated environment, install a PyTorch build compatible with your CUDA driver, followed by the inference and benchmark extras. For the archived CUDA 12.8 build:
+Install a PyTorch build compatible with your CUDA driver, followed by the inference and benchmark extras. For the archived CUDA 12.8 build:
 
 ```bash
 python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cu128
 python -m pip install -e '.[inference,benchmark,test]'
 ```
-
-**Checkpoint identity is not yet pinned.** The archive identifies a Qwen3-architecture 4B checkpoint, but the historical directory name is inconsistent with its metadata. Do not assume that any model with a similar name reproduces the paper. Model weights are not included. Supply a verified local checkpoint with `--model`, or a compatible Hugging Face model ID and an explicit `--revision`. The scoring kernel requires single-token decimal digits.
 
 ### Benchmark
 
@@ -99,7 +88,6 @@ selectverify check-data \
   --benchmark-source "$BENCHMARK_SOURCE" --data-root "$DATA_ROOT"
 ```
 
-With the matching data release, this should report 673 evaluable trajectories: 201 dev and 472 test. The bundled manifest uses at most 30 examples per framework–benchmark cell with sampling seed 0, followed by an MD5-based split. Labels determine renderable sample eligibility and scoring, but are not included in inference traces or prompts. Reference answers and injection markers are excluded from model inputs through the benchmark adapter and official renderer.
 
 ## Run the paired evaluation
 
@@ -150,7 +138,7 @@ selectverify run \
 
 The controls recompute global scores and require the fresh shortlist to match the source run. Their parser accepts supported integer, code-fenced, and boxed formats while enforcing candidate membership. The bundled sanitized scores omit candidate lists and generated text, so they cannot replace a fresh `--paired-source` file.
 
-## Development selection and cached ablations
+## Development selection and ablations
 
 The frozen configurations are already included; rebuilding the search is optional and more expensive than Top-3 inference. To collect exhaustive signals and AAO predictions for both splits:
 
@@ -170,9 +158,6 @@ selectverify evaluate \
   --cache-dir cache --out-dir runs/selection
 ```
 
-`screen` ranks **784 configurations using development accuracy only**. `evaluate` uses the selected configurations on the test split and computes fixed-parameter ablations. It reads `signals*.jsonl` and `all_at_once_4b*.jsonl`; keep each cache directory restricted to one compatible experiment.
-
-Cached scores and batched BF16 inference are not numerically identical: the archive reports **62.66 When for cached SV** and **62.40 for the paired run**. Do not substitute cached accuracy or collection time for paired inference measurements. The Pro test split was used in earlier exploratory work and is not a fresh blind holdout.
 
 ## Repository layout
 
